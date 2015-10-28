@@ -1,0 +1,2 @@
+light brown: #f2d9b9
+dark brown: #b78868
