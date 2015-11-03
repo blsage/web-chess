@@ -89,18 +89,28 @@ function processUserInput(event) {
 //if "white"
     if(currentPlayer%2 == 0 ) {
         if(  pieceHasBeenSelected == false && currPiece.playerColor == "white") {
-            currCell.isSelected = true;
-            pieceHasBeenSelected = true;
-            selectedCell = currCell;
-            selectedPiece = currPiece;
-        } else {
-                cells[row][col].piece = selectedPiece;
-                selectedCell.piece = new EmptyPiece();
-                currentPlayer++;
-                pieceHasBeenSelected = false;
-                selectedCell.isSelected = false;
-                selectedPiece = null;
-                selectedCell = null;
+            selectPiece(currCell);
+
+        } else if(pieceHasBeenSelected == true) {
+
+                //if clicked on another white piece, then change selection
+                if(currCell.piece.playerColor == "white") {
+                    var same = (selectedCell == currCell);
+                    selectedCell.isSelected = false;
+                    if(same == false)
+                        selectPiece(currCell);
+                } else {
+
+                    //else, if not a white piece, then check to see if it's a legal move
+
+                    cells[row][col].piece = selectedPiece;
+                    selectedCell.piece = new EmptyPiece();
+                    currentPlayer++;
+                    pieceHasBeenSelected = false;
+                    selectedCell.isSelected = false;
+                    selectedPiece = null;
+                    selectedCell = null;
+                }
         }
     }
     // else if()
@@ -109,4 +119,11 @@ function processUserInput(event) {
     drawBoard();
     // console.log("row: col is " + row + ":" + col);
 
+}
+
+function selectPiece(cell) {
+    cell.isSelected = true;
+    pieceHasBeenSelected = true;
+    selectedCell = cell;
+    selectedPiece = cell.piece;
 }
