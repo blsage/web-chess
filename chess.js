@@ -25,8 +25,11 @@ function setupBoard() {
         for(var c = 0; c < 8; c++) {
             cells[r][c] = new Cell();
             //////////////////////////Alternate colors for the squares
-            if( (r + c)%2 == 0)
-                cells[r][c].backgroundColor = "blue";
+            if( (r + c)%2 == 0) {
+                cells[r][c].backgroundColor = "#f2d9b9";
+            } else {
+                cells[r][c].backgroundColor = "#b78868";
+            }
 
         }
     }
