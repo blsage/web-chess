@@ -8,6 +8,8 @@ var cellSize = canvasGA.width/8;
 var pieceHasBeenSelected = false;
 var selectedCell = null;
 var selectedPiece = null;
+var selectedRow = null;
+var selectedCol = null;
 
 // % by 2, 0 is white, 1 is black
 var currentPlayer = 0;
@@ -57,6 +59,110 @@ function drawBoard() {
 }
 
 
+
+function processUserInput(event) {
+    var relX = event.x - canvasGA.offsetLeft;
+    var relY = event.y - canvasGA.offsetTop;
+
+    var row = Math.trunc(relY/cellSize);
+    var col = Math.trunc(relX/cellSize);
+
+    //what the user just clicked on
+    var currPiece = cells[row][col].piece;
+    var currCell = cells[row][col];
+
+//if "white"
+    if(currentPlayer%2 == 0 ) {
+        if(  pieceHasBeenSelected == false && currPiece.playerColor == "white") {
+            selectPiece(currCell);
+            selectedRow = row;
+            selectedCol = col;
+
+        } else if(pieceHasBeenSelected == true) {
+
+                //if clicked on another white piece, then change selection
+                if(currCell.piece.playerColor == "white") {
+                    var same = (selectedCell == currCell);
+                    selectedCell.isSelected = false;
+                    if(same == false) {
+                        selectPiece(currCell);
+                        selectedRow = row;
+                        selectedCol = col;
+                    }
+                } else {
+
+                    //else, if not a white piece, then check to see if it's a legal move
+                    var isItAllGood = selectedPiece.isLegalMove(selectedRow, selectedCol, row, col);
+
+                    if(isItAllGood == false) {
+                        return;
+                    }
+
+
+                    cells[row][col].piece = selectedPiece;
+                    selectedCell.piece = new EmptyPiece();
+                    currentPlayer++;
+                    pieceHasBeenSelected = false;
+                    selectedCell.isSelected = false;
+                    selectedPiece = null;
+                    selectedCell = null;
+                }
+        }
+    }
+    //if black
+    else{
+        if(  pieceHasBeenSelected == false && currPiece.playerColor == "black") {
+            selectPiece(currCell);
+            selectedRow = row;
+            selectedCol = col;
+
+        } else if(pieceHasBeenSelected == true) {
+
+                //if clicked on another black piece, then change selection
+                if(currCell.piece.playerColor == "black") {
+                    var same = (selectedCell == currCell);
+                    selectedCell.isSelected = false;
+                    if(same == false) {
+                        selectPiece(currCell);
+                        selectedRow = row;
+                        selectedCol = col;
+                    }
+                } else {
+
+                    //else, if not a black piece, then check to see if it's a legal move
+                    var isItAllGood = selectedPiece.isLegalMove(selectedRow, selectedCol, row, col);
+
+                    if(isItAllGood == false) {
+                        return;
+                    }
+
+
+                    cells[row][col].piece = selectedPiece;
+                    selectedCell.piece = new EmptyPiece();
+                    currentPlayer++;
+                    pieceHasBeenSelected = false;
+                    selectedCell.isSelected = false;
+                    selectedPiece = null;
+                    selectedCell = null;
+                }
+        }
+
+    }
+
+
+    drawBoard();
+    // console.log("row: col is " + row + ":" + col);
+
+}
+
+function selectPiece(cell) {
+    cell.isSelected = true;
+    pieceHasBeenSelected = true;
+    selectedCell = cell;
+    selectedPiece = cell.piece;
+}
+
+
 function Cell() {
     this.backgroundColor = "white";
     this.piece = new EmptyPiece();
@@ -76,57 +182,21 @@ function Pawn(color) {
     this.playerColor = color;
     this.image = new Image();
     this.image.src = "piece-images/pawn-" + this.playerColor + ".png";
-}
 
-
-function processUserInput(event) {
-    var relX = event.x - canvasGA.offsetLeft;
-    var relY = event.y - canvasGA.offsetTop;
-
-    var row = Math.trunc(relY/cellSize);
-    var col = Math.trunc(relX/cellSize);
-
-    var currPiece = cells[row][col].piece;
-    var currCell = cells[row][col];
-
-//if "white"
-    if(currentPlayer%2 == 0 ) {
-        if(  pieceHasBeenSelected == false && currPiece.playerColor == "white") {
-            selectPiece(currCell);
-
-        } else if(pieceHasBeenSelected == true) {
-
-                //if clicked on another white piece, then change selection
-                if(currCell.piece.playerColor == "white") {
-                    var same = (selectedCell == currCell);
-                    selectedCell.isSelected = false;
-                    if(same == false)
-                        selectPiece(currCell);
-                } else {
-
-                    //else, if not a white piece, then check to see if it's a legal move
-
-                    cells[row][col].piece = selectedPiece;
-                    selectedCell.piece = new EmptyPiece();
-                    currentPlayer++;
-                    pieceHasBeenSelected = false;
-                    selectedCell.isSelected = false;
-                    selectedPiece = null;
-                    selectedCell = null;
-                }
-        }
-    }
-    // else if()
-
-
-    drawBoard();
-    // console.log("row: col is " + row + ":" + col);
-
-}
-
-function selectPiece(cell) {
-    cell.isSelected = true;
-    pieceHasBeenSelected = true;
-    selectedCell = cell;
-    selectedPiece = cell.piece;
+    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
+            if(this.playerColor == "white") {
+                console.log("rows o and d: " + originRow + ", " + destRow);
+                if(originCol == destCol && originRow == destRow + 1)
+                    return true;
+                else
+                    return false;
+            }
+            //else if black
+            else {
+                if(originCol == destCol && originRow == destRow - 1)
+                    return true;
+                else
+                    return false;
+            }
+    };
 }
