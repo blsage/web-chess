@@ -40,6 +40,7 @@ function setupBoard() {
         cells[1][blah].piece = new Pawn("black");
         cells[6][blah].piece = new Pawn("white");
     }
+
 }
 
 function drawBoard() {
@@ -74,10 +75,7 @@ function processUserInput(event) {
 //if "white"
     if(currentPlayer%2 == 0 ) {
         if(  pieceHasBeenSelected == false && currPiece.playerColor == "white") {
-            selectPiece(currCell);
-            selectedRow = row;
-            selectedCol = col;
-
+            selectPiece(currCell, row , col);
         } else if(pieceHasBeenSelected == true) {
 
                 //if clicked on another white piece, then change selection
@@ -85,9 +83,8 @@ function processUserInput(event) {
                     var same = (selectedCell == currCell);
                     selectedCell.isSelected = false;
                     if(same == false) {
-                        selectPiece(currCell);
-                        selectedRow = row;
-                        selectedCol = col;
+                        resetPossibleMoveLocations();
+                        selectPiece(currCell, row, col);
                     }
                 } else {
 
@@ -106,16 +103,14 @@ function processUserInput(event) {
                     selectedCell.isSelected = false;
                     selectedPiece = null;
                     selectedCell = null;
+                    resetPossibleMoveLocations();
                 }
         }
     }
     //if black
     else{
         if(  pieceHasBeenSelected == false && currPiece.playerColor == "black") {
-            selectPiece(currCell);
-            selectedRow = row;
-            selectedCol = col;
-
+            selectPiece(currCell, row, col);
         } else if(pieceHasBeenSelected == true) {
 
                 //if clicked on another black piece, then change selection
@@ -123,9 +118,8 @@ function processUserInput(event) {
                     var same = (selectedCell == currCell);
                     selectedCell.isSelected = false;
                     if(same == false) {
-                        selectPiece(currCell);
-                        selectedRow = row;
-                        selectedCol = col;
+                        resetPossibleMoveLocations();
+                        selectPiece(currCell, row, col);
                     }
                 } else {
 
@@ -144,6 +138,7 @@ function processUserInput(event) {
                     selectedCell.isSelected = false;
                     selectedPiece = null;
                     selectedCell = null;
+                    resetPossibleMoveLocations();
                 }
         }
 
@@ -155,13 +150,33 @@ function processUserInput(event) {
 
 }
 
-function selectPiece(cell) {
+function selectPiece(cell, row, col) {
     cell.isSelected = true;
     pieceHasBeenSelected = true;
     selectedCell = cell;
     selectedPiece = cell.piece;
+    selectedRow = row;
+    selectedCol = col;
+    highlightPossibleMoveLocations();
 }
 
+function highlightPossibleMoveLocations() {
+    for(var r = 0; r < 8; r++) {
+        for(var c = 0; c < 8; c++) {
+            if(selectedPiece.isLegalMove(selectedRow, selectedCol, r, c) == true &&
+                (selectedRow != r || selectedCol != c) )
+                cells[r][c].isPossMove = true;
+        }
+    }
+}
+
+function resetPossibleMoveLocations() {
+    for(var r = 0; r < 8; r++) {
+        for(var c = 0; c < 8; c++) {
+            cells[r][c].isPossMove = false;
+        }
+    }
+}
 
 function Cell() {
     this.backgroundColor = "white";
@@ -185,7 +200,6 @@ function Pawn(color) {
 
     this.isLegalMove = function(originRow, originCol, destRow, destCol) {
             if(this.playerColor == "white") {
-                console.log("rows o and d: " + originRow + ", " + destRow);
                 if(originCol == destCol && originRow == destRow + 1)
                     return true;
                 else
