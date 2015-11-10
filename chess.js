@@ -81,9 +81,9 @@ function processUserInput(event) {
                 //if clicked on another white piece, then change selection
                 if(currCell.piece.playerColor == "white") {
                     var same = (selectedCell == currCell);
-                    selectedCell.isSelected = false;
+                    deselectPiece();
+                    resetPossibleMoveLocations();
                     if(same == false) {
-                        resetPossibleMoveLocations();
                         selectPiece(currCell, row, col);
                     }
                 } else {
@@ -117,8 +117,9 @@ function processUserInput(event) {
                 if(currCell.piece.playerColor == "black") {
                     var same = (selectedCell == currCell);
                     selectedCell.isSelected = false;
-                    if(same == false) {
-                        resetPossibleMoveLocations();
+                    resetPossibleMoveLocations();
+                    deselectPiece();
+                    if(same == false) {                        
                         selectPiece(currCell, row, col);
                     }
                 } else {
@@ -148,6 +149,14 @@ function processUserInput(event) {
     drawBoard();
     // console.log("row: col is " + row + ":" + col);
 
+}
+
+function deselectPiece() {
+    selectedCell.isSelected = false;
+    pieceHasBeenSelected = false;
+    selectedRow = -1;
+    selectedCol = -1;
+    selectedCell = undefined;
 }
 
 function selectPiece(cell, row, col) {
