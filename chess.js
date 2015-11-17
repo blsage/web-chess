@@ -62,11 +62,16 @@ function drawBoard() {
 
 
 function processUserInput(event) {
-    var relX = event.x - canvasGA.offsetLeft;
-    var relY = event.y - canvasGA.offsetTop;
+    var relX = event.clientX - canvasGA.offsetLeft;
+    var relY = event.clientY - canvasGA.offsetTop;
+    console.log("event.y: "+event.y);
+    console.log("canvasGA.offsetTop: "+canvasGA.offsetTop)
 
     var row = Math.trunc(relY/cellSize);
     var col = Math.trunc(relX/cellSize);
+    // console.log("row: "+row);
+    // console.log("relY: "+relY);
+    // console.log("cellSize: "+cellSize);
 
     //what the user just clicked on
     var currPiece = cells[row][col].piece;
@@ -119,7 +124,7 @@ function processUserInput(event) {
                     selectedCell.isSelected = false;
                     resetPossibleMoveLocations();
                     deselectPiece();
-                    if(same == false) {                        
+                    if(same == false) {
                         selectPiece(currCell, row, col);
                     }
                 } else {
