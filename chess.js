@@ -40,6 +40,26 @@ function setupBoard() {
         cells[1][blah].piece = new Pawn("black");
         cells[6][blah].piece = new Pawn("white");
     }
+//This code could be done much more elegantly, but for now, this works.
+    cells[0][0].piece= new Rook("black");
+    cells[0][7].piece= new Rook("black");
+    cells[7][0].piece= new Rook("white");
+    cells[7][7].piece= new Rook("white");
+
+    cells[0][1].piece= new Knight("black");
+    cells[0][6].piece= new Knight("black");
+    cells[7][1].piece= new Knight("white");
+    cells[7][6].piece= new Knight("white");
+
+    cells[0][2].piece= new Bishop("black");
+    cells[0][5].piece= new Bishop("black");
+    cells[7][2].piece= new Bishop("white");
+    cells[7][5].piece= new Bishop("white");
+
+    cells[0][3].piece= new Queen("black");
+    cells[7][3].piece= new Queen("white");
+    cells[0][4].piece= new King("black");
+    cells[7][4].piece= new King("white");
 
 }
 
@@ -226,5 +246,115 @@ function Pawn(color) {
                 else
                     return false;
             }
+    };
+}
+
+function Rook(color) {
+    this.playerColor = color;
+    this.image = new Image();
+    this.image.src = "piece-images/rook-" + this.playerColor + ".png";
+
+    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
+            // if(this.playerColor == "white") {
+            //     if(originCol == destCol && originRow == destRow + 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+            // //else if black
+            // else {
+            //     if(originCol == destCol && originRow == destRow - 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+    };
+}
+
+function Knight(color) {
+    this.playerColor = color;
+    this.image = new Image();
+    this.image.src = "piece-images/knight-" + this.playerColor + ".png";
+
+    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
+            // if(this.playerColor == "white") {
+            //     if(originCol == destCol && originRow == destRow + 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+            // //else if black
+            // else {
+            //     if(originCol == destCol && originRow == destRow - 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+    };
+}
+
+function Bishop(color) {
+    this.playerColor = color;
+    this.image = new Image();
+    this.image.src = "piece-images/bishop-" + this.playerColor + ".png";
+
+    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
+            // if(this.playerColor == "white") {
+            //     if(originCol == destCol && originRow == destRow + 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+            // //else if black
+            // else {
+            //     if(originCol == destCol && originRow == destRow - 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+    };
+}
+
+function Queen(color) {
+    this.playerColor = color;
+    this.image = new Image();
+    this.image.src = "piece-images/queen-" + this.playerColor + ".png";
+
+    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
+            // if(this.playerColor == "white") {
+            //     if(originCol == destCol && originRow == destRow + 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+            // //else if black
+            // else {
+            //     if(originCol == destCol && originRow == destRow - 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+    };
+}
+
+function King(color) {
+    this.playerColor = color;
+    this.image = new Image();
+    this.image.src = "piece-images/king-" + this.playerColor + ".png";
+
+    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
+            // if(this.playerColor == "white") {
+            //     if(originCol == destCol && originRow == destRow + 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
+            // //else if black
+            // else {
+            //     if(originCol == destCol && originRow == destRow - 1)
+            //         return true;
+            //     else
+            //         return false;
+            // }
     };
 }
