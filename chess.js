@@ -198,7 +198,8 @@ function highlightPossibleMoveLocations() {
     for(var r = 0; r < 8; r++) {
         for(var c = 0; c < 8; c++) {
             if(selectedPiece.isLegalMove(selectedRow, selectedCol, r, c) == true &&
-                (selectedRow != r || selectedCol != c) )
+                (selectedRow != r || selectedCol != c)
+                && selectedPiece.playerColor != cells[r][c].piece.playerColor )
                 cells[r][c].isPossMove = true;
         }
     }
