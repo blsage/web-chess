@@ -234,17 +234,33 @@ function Pawn(color) {
 
     this.isLegalMove = function(originRow, originCol, destRow, destCol) {
             if(this.playerColor == "white") {
-                if(originCol == destCol && originRow == destRow + 1)
+                if(cells[destRow][destCol].piece instanceof EmptyPiece) {
+                    if(originCol == destCol && originRow == destRow + 1)
+                        return true;
+                    else
+                        return false;
+                } else if ((destRow == originRow-1) &&
+                           (destCol == originCol-1 || destCol == originCol+1) &&
+                           (cells[destRow][destCol].piece.playerColor == "black")) {
                     return true;
-                else
+                } else {
                     return false;
+                }
             }
             //else if black
             else {
-                if(originCol == destCol && originRow == destRow - 1)
+                if(cells[destRow][destCol].piece instanceof EmptyPiece) {
+                    if(originCol == destCol && originRow == destRow - 1)
+                        return true;
+                    else
+                        return false;
+                } else if ((destRow == originRow+1) &&
+                           (destCol == originCol-1 || destCol == originCol+1) &&
+                           (cells[destRow][destCol].piece.playerColor == "white")) {
                     return true;
-                else
+                } else {
                     return false;
+                }
             }
     };
 }
