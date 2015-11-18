@@ -254,21 +254,68 @@ function Rook(color) {
     this.image = new Image();
     this.image.src = "piece-images/rook-" + this.playerColor + ".png";
 
-    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
-            // if(this.playerColor == "white") {
-            //     if(originCol == destCol && originRow == destRow + 1)
-            //         return true;
-            //     else
-            //         return false;
-            // }
-            // //else if black
-            // else {
-            //     if(originCol == destCol && originRow == destRow - 1)
-            //         return true;
-            //     else
-            //         return false;
-            // }
-    };
+    this.isLegalMove = function(originRow, originCol, destRow, destCol){
+      if(originCol == destCol || originRow == destRow){
+        //if right
+        if(destCol > originCol && destRow == originRow){
+          for(i=originCol+1; i<destCol; i++)
+          {
+            if(!(cells[originRow][i].piece instanceof EmptyPiece))
+              return false;
+          }
+
+          if(this.playerColor == cells[destRow][destCol].piece.playerColor)
+          return false;
+          else {
+            return true;
+          }
+        }
+        //if left
+        else if(destCol < originCol && destRow == originRow){
+          for(i=originCol-1; i>destCol; i--)
+          {
+            if(!(cells[originRow][i].piece instanceof EmptyPiece))
+              return false;
+          }
+
+          if(this.playerColor == cells[destRow][destCol].piece.playerColor)
+          return false;
+          else {
+            return true;
+          }
+        }
+        //if up
+        else if(destRow < originRow && destCol == originCol){
+          for(i=originRow-1; i>destRow; i--)
+          {
+            if(!(cells[i][originCol].piece instanceof EmptyPiece))
+              return false;
+          }
+
+          if(this.playerColor == cells[destRow][destCol].piece.playerColor)
+          return false;
+          else {
+            return true;
+          }
+        }
+        //if down
+        else if(destRow > originRow && destCol == originCol){
+          for(i=originRow+1; i<destRow; i++)
+          {
+            if(!(cells[i][originCol].piece instanceof EmptyPiece))
+              return false;
+          }
+
+          if(this.playerColor == cells[destRow][destCol].piece.playerColor)
+          return false;
+          else {
+            return true;
+          }
+        }
+      }
+      else
+        return false;
+  }
 }
 
 function Knight(color) {
