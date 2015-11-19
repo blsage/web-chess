@@ -335,26 +335,29 @@ function Rook(color) {
   }
 }
 
-function Knight(color) {
-    this.playerColor = color;
-    this.image = new Image();
-    this.image.src = "piece-images/knight-" + this.playerColor + ".png";
+function Knight(color){
+  this.playerColor = color;
+  this.image = new Image();
+  this.image.src = "piece-images/knight-" + this.playerColor + ".png";
 
-    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
-            // if(this.playerColor == "white") {
-            //     if(originCol == destCol && originRow == destRow + 1)
-            //         return true;
-            //     else
-            //         return false;
-            // }
-            // //else if black
-            // else {
-            //     if(originCol == destCol && originRow == destRow - 1)
-            //         return true;
-            //     else
-            //         return false;
-            // }
-    };
+  this.isLegalMove = function(originRow, originCol, destRow, destCol){
+    if(destRow - originRow == 1 || destRow - originRow == -1){
+      if(destCol - originCol == 2 || destCol - originCol == -2){
+        return true;
+      }else {
+        return false;
+      }
+    }
+    else if(destRow - originRow == 2 || destRow - originRow == -2){
+      if(destCol - originCol == 1 || destCol - originCol == -1){
+        return true;
+      }else {
+        return false;
+      }
+    }else {
+      return false;
+    }
+  };
 }
 
 function Bishop(color) {
