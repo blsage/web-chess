@@ -120,7 +120,20 @@ function processUserInput(event) {
                         return;
                     }
 
-
+                    //if castleing
+                    if(selectedPiece instanceof King){
+                    if(selectedRow == 0 || selectedRow == 7){
+                    if(selectedCol == 4){
+                    if(row == 7){
+                    if(col == 2){
+                      cells[row][3].piece = cells[row][0].piece;
+                      cells[row][0].piece = new EmptyPiece();
+                    }
+                    if(col == 6){
+                      cells[row][5].piece = cells[row][0].piece;
+                      cells[row][7].piece = new EmptyPiece();
+                    }}}}}
+                    
                     cells[row][col].piece = selectedPiece;
                     selectedCell.piece = new EmptyPiece();
                     currentPlayer++;
@@ -156,7 +169,20 @@ function processUserInput(event) {
                         return;
                     }
 
-
+                    //if castleing
+                    if(selectedPiece instanceof King){
+                    if(selectedRow == 0 || selectedRow == 7){
+                    if(selectedCol == 4){
+                    if(row == 0){
+                    if(col == 2){
+                      cells[row][3].piece = cells[row][0].piece;
+                      cells[row][0].piece = new EmptyPiece();
+                    }
+                    if(col == 6){
+                      cells[row][5].piece = cells[row][0].piece;
+                      cells[row][7].piece = new EmptyPiece();
+                    }}}}}
+                    
                     cells[row][col].piece = selectedPiece;
                     selectedCell.piece = new EmptyPiece();
                     currentPlayer++;
@@ -230,6 +256,7 @@ function EmptyPiece() {
 
 function Pawn(color) {
     this.playerColor = color;
+    this.hasMoved = 0;
     this.image = new Image();
     this.image.src = "piece-images/pawn-" + this.playerColor + ".png";
 
@@ -269,6 +296,7 @@ function Pawn(color) {
 function Rook(color) {
     this.playerColor = color;
     this.image = new Image();
+    this.hasMoved = 0;
     this.image.src = "piece-images/rook-" + this.playerColor + ".png";
 
     this.isLegalMove = function(originRow, originCol, destRow, destCol){
@@ -406,22 +434,83 @@ function Queen(color) {
 
 function King(color) {
     this.playerColor = color;
+    this.hasMoved = 0;
     this.image = new Image();
     this.image.src = "piece-images/king-" + this.playerColor + ".png";
 
     this.isLegalMove = function(originRow, originCol, destRow, destCol) {
-            // if(this.playerColor == "white") {
-            //     if(originCol == destCol && originRow == destRow + 1)
-            //         return true;
-            //     else
-            //         return false;
-            // }
-            // //else if black
-            // else {
-            //     if(originCol == destCol && originRow == destRow - 1)
-            //         return true;
-            //     else
-            //         return false;
-            // }
+                if(originCol == destCol && originRow == destRow + 1){
+                   if(!(cells[destRow][destCol].piece.playerColor == this.playerColor))
+                     return true;
+                   }
+                else if(originCol == destCol + 1 && originRow == destRow){
+                   if(!(cells[destRow][destCol].piece.playerColor == this.playerColor))
+                     return true;
+                   }
+                else if(originCol == destCol && originRow == destRow - 1){
+                   if(!(cells[destRow][destCol].piece.playerColor == this.playerColor))
+                     return true;
+                   }
+                else if(originCol == destCol - 1 && originRow == destRow){
+                   if(!(cells[destRow][destCol].piece.playerColor == this.playerColor))
+                     return true;
+                   }
+                else if(originCol == destCol + 1 && originRow == destRow + 1){
+                   if(!(cells[destRow][destCol].piece.playerColor == this.playerColor))
+                     return true;
+                   }
+                else if(originCol == destCol + 1 && originRow == destRow - 1){
+                   if(!(cells[destRow][destCol].piece.playerColor == this.playerColor))
+                     return true;
+                   }
+                else if(originCol == destCol - 1 && originRow == destRow + 1){
+                   if(!(cells[destRow][destCol].piece.playerColor == this.playerColor))
+                     return true;
+                   }
+                else if(originCol == destCol - 1 && originRow == destRow - 1){
+                   if(!(cells[destRow][destCol].piece.playerColor == this.playerColor))
+                     return true;
+                   }
+                //castle white
+                else if(this.playerColor == "white"){
+                  if(destCol == 2 && destRow == 7){
+                    if(
+                      this.hasMoved == 0 &&
+                      cells[7][0].piece.hasMoved == 0 &&
+                      cells[7][1].piece instanceof EmptyPiece &&
+                      cells[7][2].piece instanceof EmptyPiece &&
+                      cells[7][3].piece instanceof EmptyPiece)
+                    return true;
+                    }
+                  if(destCol == 6 && destRow == 7){
+                    if(
+                      this.hasMoved == 0 &&
+                      cells[7][7].piece.hasMoved == 0 &&
+                      cells[7][6].piece instanceof EmptyPiece &&
+                      cells[7][5].piece instanceof EmptyPiece)
+                    return true;
+                    }
+                  }
+                //castle black
+                else if(this.playerColor == "black"){
+                  if(destCol == 2 && destRow == 0){
+                    if(
+                      this.hasMoved == 0 &&
+                      cells[0][0].piece.hasMoved == 0 &&
+                      cells[0][1].piece instanceof EmptyPiece &&
+                      cells[0][2].piece instanceof EmptyPiece &&
+                      cells[0][3].piece instanceof EmptyPiece)
+                    return true;
+                    }
+                  if(destCol == 6 && destRow == 0){
+                    if(
+                      this.hasMoved == 0 &&
+                      cells[0][7].piece.hasMoved == 0 &&
+                      cells[0][6].piece instanceof EmptyPiece &&
+                      cells[0][5].piece instanceof EmptyPiece)
+                    return true;
+                  }
+                  }
+            return false;
     };
 }
