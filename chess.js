@@ -134,6 +134,7 @@ function processUserInput(event) {
                       cells[row][7].piece = new EmptyPiece();
                     }}}}}
                     
+                    selectedPiece.hasMoved = 1;
                     cells[row][col].piece = selectedPiece;
                     selectedCell.piece = new EmptyPiece();
                     currentPlayer++;
@@ -183,6 +184,7 @@ function processUserInput(event) {
                       cells[row][7].piece = new EmptyPiece();
                     }}}}}
                     
+                    selectedPiece.hasMoved = 1;
                     cells[row][col].piece = selectedPiece;
                     selectedCell.piece = new EmptyPiece();
                     currentPlayer++;
