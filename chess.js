@@ -390,26 +390,30 @@ function Knight(color){
   };
 }
 
-function Bishop(color) {
-    this.playerColor = color;
-    this.image = new Image();
-    this.image.src = "piece-images/bishop-" + this.playerColor + ".png";
-
-    this.isLegalMove = function(originRow, originCol, destRow, destCol) {
-            // if(this.playerColor == "white") {
-            //     if(originCol == destCol && originRow == destRow + 1)
-            //         return true;
-            //     else
-            //         return false;
-            // }
-            // //else if black
-            // else {
-            //     if(originCol == destCol && originRow == destRow - 1)
-            //         return true;
-            //     else
-            //         return false;
-            // }
-    };
+function Bishop(color){
+  this.playerColor = color;
+  this.image = new Image();
+  this.image.src = "piece-images/bishop-" + this.playerColor + ".png";
+  
+  this.isLegalMove = function(originRow, originCol, destRow, destCol){
+    var dx = destCol > originCol ? 1 : -1;
+    var dy = destRow > originRow ? 1 : -1;
+    console.log("params: " + originRow + ":" + originCol + ":" + destRow +":" + destCol);
+    if(Math.abs( destRow - originRow)  != Math.abs( destCol - originCol )){
+      return false;
+    }else if(destRow == originRow && destCol == originCol){
+      return false;
+    }else{
+      var c = originCol + dx;
+      for (var r = originRow + dy; r != destRow; r += dy){
+        console.log("row: " + r + " and col: " + c + " and cell: " +cells[r][c]);
+        if( !(cells[r][c].piece instanceof EmptyPiece) )
+        return false;
+        c += dx;
+      }
+      return true;
+    }
+  };
 }
 
 function Queen(color) {
