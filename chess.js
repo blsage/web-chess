@@ -134,7 +134,7 @@ function processUserInput(event) {
                       cells[row][7].piece = new EmptyPiece();
                     }}}}}
                     
-                    selectedPiece.hasMoved = 1;
+                    selectedPiece.hasMoved = true;
                     cells[row][col].piece = selectedPiece;
                     selectedCell.piece = new EmptyPiece();
                     currentPlayer++;
@@ -184,7 +184,7 @@ function processUserInput(event) {
                       cells[row][7].piece = new EmptyPiece();
                     }}}}}
                     
-                    selectedPiece.hasMoved = 1;
+                    selectedPiece.hasMoved = true;
                     cells[row][col].piece = selectedPiece;
                     selectedCell.piece = new EmptyPiece();
                     currentPlayer++;
@@ -258,38 +258,56 @@ function EmptyPiece() {
 
 function Pawn(color) {
     this.playerColor = color;
-    this.hasMoved = 0;
+    this.hasMoved = false;
     this.image = new Image();
     this.image.src = "piece-images/pawn-" + this.playerColor + ".png";
 
     this.isLegalMove = function(originRow, originCol, destRow, destCol) {
             if(this.playerColor == "white") {
-                if(cells[destRow][destCol].piece instanceof EmptyPiece) {
-                    if(originCol == destCol && originRow == destRow + 1)
+                if (this.hasMoved == true) {
+                    if(cells[destRow][destCol].piece instanceof EmptyPiece) {
+                        if(originCol == destCol && originRow == destRow + 1)
+                            return true;
+                        else
+                            return false;
+                    } else if ((destRow == originRow-1) &&
+                               (destCol == originCol-1 || destCol == originCol+1) &&
+                               (cells[destRow][destCol].piece.playerColor == "black")) {
                         return true;
-                    else
+                    } else {
                         return false;
-                } else if ((destRow == originRow-1) &&
-                           (destCol == originCol-1 || destCol == originCol+1) &&
-                           (cells[destRow][destCol].piece.playerColor == "black")) {
-                    return true;
+                    }
                 } else {
-                    return false;
+                    if ((destRow == originRow - 2 || destRow == originRow - 1) &&
+                        (destCol == originCol)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
             //else if black
             else {
-                if(cells[destRow][destCol].piece instanceof EmptyPiece) {
-                    if(originCol == destCol && originRow == destRow - 1)
+                if (this.hasMoved == true) {
+                    if(cells[destRow][destCol].piece instanceof EmptyPiece) {
+                        if(originCol == destCol && originRow == destRow - 1)
+                            return true;
+                        else
+                            return false;
+                    } else if ((destRow == originRow+1) &&
+                               (destCol == originCol-1 || destCol == originCol+1) &&
+                               (cells[destRow][destCol].piece.playerColor == "white")) {
                         return true;
-                    else
+                    } else {
                         return false;
-                } else if ((destRow == originRow+1) &&
-                           (destCol == originCol-1 || destCol == originCol+1) &&
-                           (cells[destRow][destCol].piece.playerColor == "white")) {
-                    return true;
+                    }
                 } else {
-                    return false;
+                    if ((destRow == originRow + 2 || destRow == originRow + 1) &&
+                        (destCol == originCol)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
     };
@@ -298,7 +316,7 @@ function Pawn(color) {
 function Rook(color) {
     this.playerColor = color;
     this.image = new Image();
-    this.hasMoved = 0;
+    this.hasMoved = false;
     this.image.src = "piece-images/rook-" + this.playerColor + ".png";
 
     this.isLegalMove = function(originRow, originCol, destRow, destCol){
@@ -440,7 +458,7 @@ function Queen(color) {
 
 function King(color) {
     this.playerColor = color;
-    this.hasMoved = 0;
+    this.hasMoved = false;
     this.image = new Image();
     this.image.src = "piece-images/king-" + this.playerColor + ".png";
 
